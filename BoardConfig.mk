@@ -51,11 +51,15 @@ TARGET_BOARD_PLATFORM := omap4
 TARGET_BOOTLOADER_BOARD_NAME := tuna
 
 BOARD_EGL_CFG := device/samsung/tuna/egl.cfg
+BOARD_EGL_WORKAROUND_BUG_10194508 := true
 BOARD_CREATE_TUNA_HDCP_KEYS_SYMLINK := true
 
 #BOARD_USES_HGL := true
 #BOARD_USES_OVERLAY := true
 USE_OPENGL_RENDERER := true
+
+# Force the screenshot path to CPU consumer
+COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 
 # set if the target supports FBIO_WAITFORVSYNC
 TARGET_HAS_WAITFORVSYNC := true
@@ -65,7 +69,6 @@ RECOVERY_FSTAB_VERSION=2
 
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 TARGET_RECOVERY_UI_LIB := librecovery_ui_tuna
-BOARD_RECOVERY_SWIPE := true
 
 # device-specific extensions to the updater binary
 TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_tuna
@@ -111,9 +114,22 @@ BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/tuna/recovery_keys.c
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 
+DEVICE_RESOLUTION := 720x1280
+RECOVERY_SDCARD_ON_DATA := true
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+BOARD_HAS_NO_REAL_SDCARD := true
+PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
+TW_INCLUDE_JB_CRYPTO := true
+SP1_NAME := "efs"
+SP1_BACKUP_METHOD := files
+SP1_MOUNTABLE := 1
+#TW_HAS_DOWNLOAD_MODE := true # does not work on Galaxy Nexus
+TW_NO_USB_STORAGE := true
+
 BOARD_SEPOLICY_DIRS += \
         device/samsung/tuna/sepolicy
 
 BOARD_SEPOLICY_UNION += \
         genfs_contexts \
         file_contexts
+        
